@@ -1,2 +1,2 @@
-# React/Redux/Router Starter Project
+# Portfolio project by using react
 
