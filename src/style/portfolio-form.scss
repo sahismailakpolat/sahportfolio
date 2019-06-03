@@ -1,0 +1,26 @@
+.portfolio-form-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 20px;
+  padding: 40px;
+
+  @include input-element();
+  input {
+    margin-bottom: 0px;
+  }
+
+  .img-uploaders {
+    display: grid;
+    grid-template-columns: 180px 180px 180px;
+    grid-gap: 20px;
+
+    .portfolio-manager-img-wrapper {
+      img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+    }
+  }
+}
