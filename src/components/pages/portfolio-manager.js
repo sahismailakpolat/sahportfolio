@@ -86,7 +86,7 @@ export default class PortfolioManager extends Component {
       });
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.getPortfolioItems();
   }
 

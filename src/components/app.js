@@ -3,19 +3,20 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from "axios";
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faTrash, faSignOutAlt, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faSignOutAlt, faEdit, faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 import NavigationContainer from "./navigation/navigation-container";
 import Home from "./pages/home";
 import About from "./pages/about";
 import Blog from "./pages/blog";
+import BlogDetail from "./blog/blog-detail";
 import Contact from "./pages/contact";
 import PortfolioDetail from "./portfolio/portfolio-detail";
 import PortfolioManager from "./pages/portfolio-manager";
 import Auth from "./pages/auth";
 import NoMatch from "./pages/no-match";
 
-library.add(faTrash, faSignOutAlt, faEdit);
+library.add(faTrash, faSignOutAlt, faEdit, faSpinner);
 
 export default class App extends Component {
   constructor(props) {
@@ -74,7 +75,7 @@ export default class App extends Component {
       });
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.checkLoginStatus();
   }
 
@@ -96,6 +97,7 @@ export default class App extends Component {
               <Route exact path="/" component={Home} />
               <Route path="/about" component={About} />
               <Route path="/blog" component={Blog} />
+              <Route path="/b/:slug" component={BlogDetail} />
               <Route path="/contact" component={Contact} />
               {this.state.loggedIn === "LOGGED_IN" ? this.authPages() : null}
 

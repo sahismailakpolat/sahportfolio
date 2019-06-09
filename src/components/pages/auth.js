@@ -25,7 +25,8 @@ export default class Auth extends Component {
         <div
           className="left-auth"
           style={{
-            backgroundImage: `url(${loginImage})`
+            backgroundImage: `url(${loginImage})`,
+            borderRadius: 15
           }}
         />
 
