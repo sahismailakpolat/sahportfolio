@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from "axios";
-
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faTrash, faSignOutAlt, faEdit, faSpinner } from '@fortawesome/free-solid-svg-icons'
-
 import NavigationContainer from "./navigation/navigation-container";
 import Home from "./pages/home";
 import About from "./pages/about";
@@ -15,12 +11,13 @@ import PortfolioDetail from "./portfolio/portfolio-detail";
 import PortfolioManager from "./pages/portfolio-manager";
 import Auth from "./pages/auth";
 import NoMatch from "./pages/no-match";
-
-library.add(faTrash, faSignOutAlt, faEdit, faSpinner);
+import Icons from "../helpers/icons";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
+
+    Icons();
 
     this.state = {
       loggedIn: "NOT_LOGGED_IN"
@@ -96,7 +93,14 @@ export default class App extends Component {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/about" component={About} />
-              <Route path="/blog" component={Blog} />
+              
+              <Route 
+              path="/blog"
+              render={props => (
+                <Blog {...props} loggedIn={this.state.loggedIn} />
+              )}  
+              />
+
               <Route path="/b/:slug" component={BlogDetail} />
               <Route path="/contact" component={Contact} />
               {this.state.loggedIn === "LOGGED_IN" ? this.authPages() : null}
@@ -125,3 +129,4 @@ export default class App extends Component {
     );
   }
 }
+

@@ -22,26 +22,25 @@ export default class Blog extends Component {
     this.handleNewBlogClick = this.handleNewBlogClick.bind(this);
     this.handleModalClose = this.handleModalClose.bind(this);
     this.handleNewBlogSubmit = this.handleNewBlogSubmit.bind(this);
-
   }
 
   handleNewBlogSubmit(blog) {
     this.setState({
       blogModalOpen: false,
       blogItems: [blog].concat(this.state.blogItems)
-    })
+    });
   }
 
   handleNewBlogClick() {
     this.setState({
       blogModalOpen: true
-    })
+    });
   }
 
   handleModalClose() {
     this.setState({
       blogModalOpen: false
-    })
+    });
   }
 
   onScroll() {
@@ -89,7 +88,7 @@ export default class Blog extends Component {
   componentWillMount() {
     this.getBlogItems();
   }
-  
+
   componentWillUnmount() {
     window.removeEventListener("scroll", this.onScroll, false);
   }
@@ -100,15 +99,19 @@ export default class Blog extends Component {
     });
     return (
       <div className="blog-wrapper">
-        <BlogModal 
+        <BlogModal
           modalOpen={this.state.blogModalOpen}
           handleModalClose={this.handleModalClose}
           handleNewBlogSubmit={this.handleNewBlogSubmit}
-          />
+        />
         
-        <div className="new-blog-link">
-          <a onClick={this.handleNewBlogClick}>Open Modal</a>
-        </div>
+        {this.props.loggedIn === "LOGGED_IN" ? (
+          <div className="new-blog-link">
+            <a onClick={this.handleNewBlogClick}>
+              <FontAwesomeIcon icon="plus-circle" />
+            </a>
+          </div>
+        ) : null}
 
         <div className="content-wrapper">{blogRecords}</div>
 

@@ -1,0 +1,15 @@
+.blog-form-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+    padding: 40px;
+  
+    @include input-element();
+    input {
+      margin-bottom: 0px;
+    }
+
+    .blog-form-button {
+        @include base-btn();
+    }
+}

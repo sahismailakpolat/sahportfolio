@@ -2,10 +2,31 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
+    
+    .new-blog-link {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+
+      a {
+        color: $teal;
+        font-size: 2.4em;
+        cursor: pointer;
+        transition: 0.5 ease-in-out;
+
+        &:hover {
+          color: $dark-teal;
+        }
+      }
+    }
+
   .content-wrapper {
     display: flex;
     flex-direction: column;
     width: 820px;
+
+ 
 
     a {
         text-decoration: none;
