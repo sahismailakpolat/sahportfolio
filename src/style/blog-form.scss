@@ -12,4 +12,11 @@
     .blog-form-button {
         @include base-btn();
     }
+
+    .image-uploaders {
+      display: grid;
+      grid-template-columns: 180px;
+      justify-content: center;
+    }
+
 }

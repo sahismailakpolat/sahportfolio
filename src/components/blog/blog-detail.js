@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import ReactHtmlParser from "react-html-parser";
 import BlogFeaturedImage from "./blog-featured-img";
+import BlogForm from "./blog-form";
 
 export default class BlogDetail extends Component {
   constructor(props) {
@@ -9,12 +10,21 @@ export default class BlogDetail extends Component {
 
     this.state = {
       currentId: this.props.match.params.slug,
-      blogItem: {}
+      blogItem: {},
+      editMode: false
     };
 
     this.getBlogItem = this.getBlogItem.bind(this);
+    this.handleEditClick = this.handleEditClick.bind(this);
   }
-  
+
+  handleEditClick() {
+    console.log("handled edit click");
+    this.setState({
+      editMode: true
+    });
+  }
+
   getBlogItem() {
     axios
       .get(
@@ -43,16 +53,29 @@ export default class BlogDetail extends Component {
       featured_image_url,
       blog_status
     } = this.state.blogItem;
-    return (
-      <div className="blog-wrapper">
+
+    const contentManager = () => {
+      if (this.state.editMode) {
+        return <BlogForm editMode={this.state.editMode} blog={this.state.blogItem} />;
+      } else {
+        return (
         <div className="content-wrapper">
-          <div className="blog-title">{title}</div>
+          <div className="blog-title" onClick={this.handleEditClick}>
+            {title}
+          </div>
 
           <BlogFeaturedImage img={featured_image_url} />
 
           <div className="blog-content">{ReactHtmlParser(content)}</div>
         </div>
-      </div>
-    );
+        )
+      }
+    };
+
+    return (
+    <div className="blog-wrapper">
+    {contentManager()}
+    </div>
+    )
   }
 }
