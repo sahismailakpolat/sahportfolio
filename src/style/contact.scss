@@ -1,0 +1,36 @@
+.contact-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: calc(100vh - 83px);
+  grid-gap: 15px;
+
+  .contact-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px;
+    font-family: "Roboto", sans-serif;
+
+    .contact-bullet-points {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-gap: 21px;
+
+      .contact-point-group {
+        display: flex;
+        align-items: center;
+
+        .icon {
+          font-size: 2em;
+          color: $teal;
+        }
+
+        .text {
+          font-size: 1.5em;
+          font-weight: 900;
+          margin-left: 20px;
+        }
+      }
+    }
+  }
+}
