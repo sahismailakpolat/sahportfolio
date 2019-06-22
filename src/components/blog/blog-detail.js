@@ -16,7 +16,7 @@ export default class BlogDetail extends Component {
 
     this.getBlogItem = this.getBlogItem.bind(this);
     this.handleEditClick = this.handleEditClick.bind(this);
-    this.handleImageDelete = this.handleImageDelete.bind(this)
+    this.handleImageDelete = this.handleImageDelete.bind(this);
     this.handleUpdateFormSubmit = this.handleUpdateFormSubmit.bind(this);
   }
 
@@ -24,7 +24,7 @@ export default class BlogDetail extends Component {
     this.setState({
       blogItem: blog,
       editMode: false
-    })
+    });
   }
 
   handleImageDelete() {
@@ -32,13 +32,15 @@ export default class BlogDetail extends Component {
       blogItem: {
         featured_image_url: ""
       }
-    })
+    });
   }
 
   handleEditClick() {
-    this.setState({
-      editMode: true
-    });
+    if (this.props.loggedIn === "LOGGED_IN") {
+      this.setState({
+        editMode: true
+      });
+    }
   }
 
   getBlogItem() {
@@ -72,31 +74,29 @@ export default class BlogDetail extends Component {
 
     const contentManager = () => {
       if (this.state.editMode) {
-        return <BlogForm 
-          editMode={this.state.editMode} 
-          blog={this.state.blogItem} 
-          handleImageDelete={this.handleImageDelete}
-          handleUpdateFormSubmit={this.handleUpdateFormSubmit}
-          />;
+        return (
+          <BlogForm
+            editMode={this.state.editMode}
+            blog={this.state.blogItem}
+            handleImageDelete={this.handleImageDelete}
+            handleUpdateFormSubmit={this.handleUpdateFormSubmit}
+          />
+        );
       } else {
         return (
-        <div className="content-wrapper">
-          <div className="blog-title" onClick={this.handleEditClick}>
-            {title}
+          <div className="content-wrapper">
+            <div className="blog-title" onClick={this.handleEditClick}>
+              {title}
+            </div>
+
+            <BlogFeaturedImage img={featured_image_url} />
+
+            <div className="blog-content">{ReactHtmlParser(content)}</div>
           </div>
-
-          <BlogFeaturedImage img={featured_image_url} />
-
-          <div className="blog-content">{ReactHtmlParser(content)}</div>
-        </div>
-        )
+        );
       }
     };
 
-    return (
-    <div className="blog-wrapper">
-    {contentManager()}
-    </div>
-    )
+    return <div className="blog-wrapper">{contentManager()}</div>;
   }
 }

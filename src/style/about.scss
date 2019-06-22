@@ -1,0 +1,15 @@
+.about-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: calc(100vh - 83px);
+    grid-gap: 15px;
+
+    .about-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 100px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 600;
+    }
+}
