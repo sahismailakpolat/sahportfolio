@@ -12,7 +12,9 @@ export default class BlogForm extends Component {
       title: "",
       blog_status: "",
       content: "",
-      featured_image: ""
+      featured_image: "",
+      apiUrl: "https://sahakplt.devcamp.space/portfolio/portfolio_blogs",
+      apiAction: "post"
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -22,8 +24,24 @@ export default class BlogForm extends Component {
     this.componentConfig = this.componentConfig.bind(this);
     this.djsConfig = this.djsConfig.bind(this);
     this.handleDropzoneImageDrop = this.handleDropzoneImageDrop.bind(this);
-
+    this.deleteImage = this.deleteImage.bind(this);
     this.featuredImageRef = React.createRef();
+  }
+
+  deleteImage(imageType) {
+    axios
+      .delete(
+        `https://api.devcamp.space/portfolio/delete-portfolio-blog-image/${
+          this.props.blog.id
+        }?image_type=${imageType}`,
+        { withCredentials: true }
+      )
+      .then(res => {
+        this.props.handleImageDelete();
+      })
+      .catch("deleted image err", err => {
+        console.log(err);
+      });
   }
 
   componentWillMount() {
@@ -31,7 +49,12 @@ export default class BlogForm extends Component {
       this.setState({
         id: this.props.blog.id,
         title: this.props.blog.title,
-        blog_status: this.props.blog.blog_status
+        blog_status: this.props.blog.blog_status,
+        content: this.props.blog.content,
+        apiUrl: `https://sahakplt.devcamp.space/portfolio/portfolio_blogs/${
+          this.props.blog.id
+        }`,
+        apiAction: "patch"
       });
     }
   }
@@ -90,12 +113,12 @@ export default class BlogForm extends Component {
   }
 
   handleFormSubmit(event) {
-    axios
-      .post(
-        "https://sahakplt.devcamp.space/portfolio/portfolio_blogs",
-        this.buildForm(),
-        { withCredentials: true }
-      )
+    axios({
+      method: this.state.apiAction,
+      url: this.state.apiUrl,
+      data: this.buildForm(),
+      withCredentials: true
+    })
       .then(res => {
         if (this.state.featured_image) {
           this.featuredImageRef.current.dropzone.removeAllFiles();
@@ -107,8 +130,11 @@ export default class BlogForm extends Component {
           content: "",
           featured_image: ""
         });
-
-        this.props.handleFormSubmit(res.data.portfolio_blog);
+        if (this.props.editMode) {
+          this.props.handleUpdateFormSubmit(res.data.portfolio_blog);
+        } else {
+          this.props.handleFormSubmit(res.data.portfolio_blog);
+        }
       })
       .catch(err => {
         console.log(err);
@@ -153,13 +179,13 @@ export default class BlogForm extends Component {
             <div className="portfolio-manager-img-wrapper">
               <img src={this.props.blog.featured_image_url} />
               <div className="img-removal-link">
-                <a>Remove Image</a>
+                <a onClick={() => this.deleteImage()}>Remove Image</a>
               </div>
             </div>
           ) : (
             <DropZoneComponent
               ref={this.featuredImageRef}
-              config={this.componentConfig()}
+              config={this.componentConfig("response from delete image")}
               djsConfig={this.djsConfig()}
               eventHandlers={this.handleDropzoneImageDrop()}
             >
