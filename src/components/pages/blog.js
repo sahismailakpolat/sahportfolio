@@ -22,6 +22,7 @@ export default class Blog extends Component {
     this.handleNewBlogClick = this.handleNewBlogClick.bind(this);
     this.handleModalClose = this.handleModalClose.bind(this);
     this.handleNewBlogSubmit = this.handleNewBlogSubmit.bind(this);
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
 
   handleNewBlogSubmit(blog) {
@@ -35,6 +36,25 @@ export default class Blog extends Component {
     this.setState({
       blogModalOpen: true
     });
+  }
+
+  handleDeleteClick(blog) {
+    axios
+      .delete(
+        `https://sahakplt.devcamp.space/portfolio/portfolio_blogs/${blog.id}`,
+        { withCredentials: true }
+      )
+      .then(res => {
+        this.setState({
+          blogItems: this.state.blogItems.filter(blogItem => {
+            return blog.id !== blogItem.id;
+          })
+        })
+        return res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   handleModalClose() {
@@ -72,7 +92,7 @@ export default class Blog extends Component {
         {
           withCredentials: true
         }
-      )
+      ) 
       .then(res => {
         this.setState({
           blogItems: this.state.blogItems.concat(res.data.portfolio_blogs),
@@ -95,7 +115,18 @@ export default class Blog extends Component {
 
   render() {
     const blogRecords = this.state.blogItems.map(blogItem => {
-      return <BlogItem key={blogItem.id} blogItem={blogItem} />;
+      if (this.props.loggedIn === "LOGGED_IN") {
+        return (
+          <div key={blogItem.id} className="admin-blog-container">
+            <BlogItem blogItem={blogItem} />
+            <a onClick={() => this.handleDeleteClick(blogItem)}>
+              <FontAwesomeIcon icon="trash"/>
+            </a>
+          </div>
+        );
+      } else {
+        return <BlogItem key={blogItem.id} blogItem={blogItem} />;
+      }
     });
     return (
       <div className="blog-wrapper">
@@ -104,7 +135,7 @@ export default class Blog extends Component {
           handleModalClose={this.handleModalClose}
           handleNewBlogSubmit={this.handleNewBlogSubmit}
         />
-        
+
         {this.props.loggedIn === "LOGGED_IN" ? (
           <div className="new-blog-link">
             <a onClick={this.handleNewBlogClick}>

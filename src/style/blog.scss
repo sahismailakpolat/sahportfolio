@@ -1,49 +1,56 @@
 .blog-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  .admin-blog-container {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    position: relative;
-    
-    .new-blog-link {
-      position: fixed;
-      right: 0;
-      bottom: 0;
 
-      a {
-        color: $teal;
-        font-size: 2.4em;
-        cursor: pointer;
-        transition: 0.5 ease-in-out;
+    a {
+      margin-left: 20px;
+      cursor: pointer;
+    }
+  }
 
-        &:hover {
-          color: $dark-teal;
-        }
+  .new-blog-link {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+
+    a {
+      color: $teal;
+      font-size: 2.4em;
+      cursor: pointer;
+      transition: 0.5 ease-in-out;
+
+      &:hover {
+        color: $dark-teal;
       }
     }
+  }
 
   .content-wrapper {
     display: flex;
     flex-direction: column;
     width: 820px;
 
- 
-
     a {
-        text-decoration: none;
-        color: $teal;
-        transition: 0.5s ease-in-out;
+      text-decoration: none;
+      color: $teal;
+      transition: 0.5s ease-in-out;
 
-        &:hover {
-            color: $dark-teal;
-            transition: 0.5s ease-in-out;
-        }
+      &:hover {
+        color: $dark-teal;
+        transition: 0.5s ease-in-out;
+      }
     }
 
     h1 {
-        font-size: 1.6em;
+      font-size: 1.6em;
     }
-
-
 
     .featured-img-wrapper {
       img {
@@ -56,7 +63,7 @@
     }
 
     .blog-title {
-        font-weight: bold;
+      font-weight: bold;
     }
   }
 }

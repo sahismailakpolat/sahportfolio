@@ -25,7 +25,7 @@ export default function() {
         <div className="icon">
           <FontAwesomeIcon icon="map-marker-alt" />
         </div>
-        <div className="text">Houston, Tx</div>
+        <div className="text">Houston, TX</div>
       </div>
         </div>
       </div>

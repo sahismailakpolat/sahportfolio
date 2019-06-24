@@ -127,6 +127,7 @@ export default class App extends Component {
                 path="/portfolio/:slug"
                 component={PortfolioDetail}
               />
+              
               <Route component={NoMatch} />
             </Switch>
           </div>

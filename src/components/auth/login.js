@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class Login extends Component {
   constructor(props) {
@@ -16,7 +17,8 @@ export default class Login extends Component {
   }
 
   handleSubmit(event) {
-    axios.post(
+    axios
+      .post(
         "https://api.devcamp.space/sessions",
         {
           client: {
@@ -27,23 +29,24 @@ export default class Login extends Component {
         {
           withCredentials: true
         }
-      ).then(res => {
+      )
+      .then(res => {
         if (res.data.status === "created") {
-            this.props.handleSuccessfulAuth();
+          this.props.handleSuccessfulAuth();
         } else {
-            this.setState({
-                errorText: "Wrong email or password"
-            })
-            this.props.handleUnsuccessfulAuth();
-        }
-      }).catch(err => {
           this.setState({
-              errorText: alert(err)
+            errorText: "Wrong email or password"
           });
           this.props.handleUnsuccessfulAuth();
-
+        }
+      })
+      .catch(err => {
+        this.setState({
+          errorText: alert(err)
+        });
+        this.props.handleUnsuccessfulAuth();
       });
-    
+
     event.preventDefault();
   }
 
@@ -60,14 +63,20 @@ export default class Login extends Component {
         <h1>Login to access your portfolio</h1>
         <div>{this.state.errorText}</div>
 
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="email"
-            name="email"
-            placeholder="Enter Your Email Adress"
-            value={this.state.email}
-            onChange={this.handleChange}
-          />
+        <form onSubmit={this.handleSubmit} className="auth-form-container">
+          <div className="form-group">
+            <FontAwesomeIcon icon="envelope" />
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter Your Email Adress"
+              value={this.state.email}
+              onChange={this.handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+          <FontAwesomeIcon icon="lock"/>
           <input
             type="password"
             name="password"
@@ -75,9 +84,8 @@ export default class Login extends Component {
             value={this.state.password}
             onChange={this.handleChange}
           />
-          <div>
-            <button type="submit">Login</button>
           </div>
+            <button type="submit">Login</button>
         </form>
       </div>
     );
