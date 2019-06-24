@@ -19,9 +19,17 @@
             grid-gap: 20px;
             @include input-element();
 
-            button {
-                @include base-btn();
+            .form-group {
+                display: flex;
+
+                svg {
+                    font-size: 2em;
+                    color: $teal;
+                    margin-right: 12px;
+                }
             }
+
+          
         }
     }
 }
